@@ -1,0 +1,11 @@
+<!DOCTYPE html><html lang="uz"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Heatmap</title>
+<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0b1120;color:white;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:20px}canvas{background:#1e293b;border-radius:12px;cursor:crosshair;touch-action:none;margin-bottom:15px}.ctrls{display:flex;gap:10px}button{padding:10px;background:#334155;color:white;border:none;border-radius:8px;cursor:pointer}button:hover{background:#475569}.info{margin-top:10px;color:#94a3b8;font-size:14px}</style></head><body>
+<canvas id="c" width="350" height="250"></canvas><div class="ctrls"><button onclick="clearHeat()">🗑 Tozalash</button></div><div class="info" id="info">Ekranni bosib clicklarni qoldiring</div>
+<script>
+const c=document.getElementById('c'),ctx=c.getContext('2d');let clicks=[];
+c.addEventListener('click',e=>{const r=c.getBoundingClientRect();clicks.push({x:e.clientX-r.left,y:e.clientY-r.top});draw()});
+function draw(){ctx.fillStyle='#1e293b';ctx.fillRect(0,0,c.width,c.height);
+clicks.forEach(p=>{const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,40);g.addColorStop(0,'rgba(239,68,68,0.6)');g.addColorStop(1,'rgba(239,68,68,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,40,0,Math.PI*2);ctx.fill()});
+document.getElementById('info').textContent=`🖱️ Clicklar soni: ${clicks.length}`;document.title=`Heatmap (${clicks})`}
+function clearHeat(){clicks=[];draw()}
+</script></body></html>
